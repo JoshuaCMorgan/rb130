@@ -1,3 +1,17 @@
+# Introduction
+
+## Why do we write tests?
+
+- A primary reason is to prevent regression. We don't want our code to "return to a former or less developed state." That is, we want to prevent bugs.
+- And we are writing tests to check for regression, because this form is easier than having to manually verify everything still works.
+- We do regression testing whenever we make changes in our code.
+- Regression testing is focused on finding potential bugs.
+- Regression testing occurs after making changes somewhere in the codebase of formerly working code. 
+- Regression tests check for bugs that  occur in formerly working code after you make changes somewhere in the  codebase.
+- Using tests to identify these bugs means we don't have to manually verify that everything works  after each change.
+  
+
+
 # Minitest Questions
 
 #### What is Minitest?
@@ -13,7 +27,7 @@ ANSWER:
 
   - **Test:**  This describes a situation or context in which tests are run. A test can have multiple assertions.
 
-  -**Assertion:**  This is the actual verification step to confirm that the data returned by your program or application is indeed what is expected.  You make one or more assertions within a test.
+  -**Assertion:**  This is the actual verification step to confirm that the data/results returned by your program or application is indeed what is expected.  You make one or more assertions within a test.
 
 #### Using this code below, lets create a test file. What is our first step? Show code.
 
@@ -52,6 +66,7 @@ ANSWER:
 ANSWER:
 - To test, we require the file that we are testing.  
 - This syntax specifies the file name Ruby needs, from the current file's directory.
+- This is the relative path to the file.
 - When we make references to the `Car` class, Ruby will know where to look for it. 
 
 
@@ -69,6 +84,7 @@ class CarTest < Minitest::Test
 end
 ```
 - We created a class where we house our tests.
+  - Called Test Suite. This is the entire set of tests that accompanies your program or application.  Its all the tests for a project.
 - Its necessary that this class subclass `Minitest::Test`.
   - This will allow our test class to inherit all the necessary methods for writing tests.
 
@@ -80,7 +96,7 @@ ANSWER:
 - Doing so allows our test class to inherit all the necessay methods for writing tests.
 
 
-#### What is the starting point necessary condition for writing tests within a test class? How does this help Minitest? Add this code to the previous, below. 
+#### What is the structure/definition for individual tests within a test class/test suite? How does this help Minitest? Add this code to the previous, below. 
 
 ANSWER:
 
@@ -99,7 +115,7 @@ class CarTest < MiniTest::Test
 end
 ```
 
-#### After creating an instance method that starts with `test_`, what is the next step? Just identify the two parts.
+#### In order to perform a test, what must first be done? After this is done, what can we then followup with.
 
 ANSWER:
 
@@ -135,6 +151,18 @@ ANSWER:
   - the second is the test or actual value.
 - If there is a discrepancy, `assert_equal` will save the error and Minitest will report that error to you at the end of the test run.
 
+#### When reading the output results for the tests, what would the following indicate:
+
+```none
+CarTest .FS.
+```
+
+ANSWER:
+- The `.` indicates successful tests, `F` failed tests, and `S` skipped tests.
+- Two tests succeeded, one didn't succeed, one wasn't run
+
+### 
+
 #### If we want to colorize our Minitest output, what can we do? Show code.
 
 ANSWER:
@@ -151,6 +179,7 @@ ANSWER:
 
 - Minitest allows you to skip certain tests.
 - You can skip a test via the `skip` keyword.
+
 ```ruby
   require 'minitest/autorun'
   require 'minitest-reporters'
@@ -269,6 +298,7 @@ def test_instance_of_car
   assert_instance_(Car, car)
 end
 ```
+
 - This test is more useful when dealing with inheritance. This example is a little contrived.
 - `assert_instance_of(cls, obj)` will fail unless `obj` is an instance of `cls`.
 
@@ -302,9 +332,14 @@ end
 
 ANSWER:
 - S: setup the necessary objects.
-- E: Execute the code against the object we're testing.
+  - Initiate any objects that will be used in the tests.
+  - objects initiated in setup method should be assigned to instance variables.
+  - setup method runs before each test
+- E: Execute/Run the code against the object we're testing.
 - A: Assert the results of the execution.
+  - Affirm the results of code execution
 - T: Tear down and clean up any lingering artifacts.
+  - teardown method runs after each test
 
 #### Using the code below, set up the necessary object and change any necessary code.
 
@@ -340,7 +375,7 @@ end
 
 # Testing Equality
 
-#### What we use `assert_equal`, what are we actually testing for? How do you know?
+#### When we use `assert_equal`, what are we actually testing for? How do you know? (That is, HOw does `assert_equal` test for equality?)
 
 ANSWER:
 - `assert_equal` uses `==` to test for equality.
@@ -351,6 +386,10 @@ ANSWER:
 ANSWER:
 
 - We should use `assert_same` assertion.
+
+#### What's the difference between `assert_equal` and `assert_same`?
+
+- The first tests for value equality while the second tests for object equality.  One compares using `#==` while the other compares using `#equal?`.
 
 #### Because the Ruby core library classes all implement sensible `==` to test for value equality, we can get away with using `assert_equal` on strings, arrays, hashes, etc. But what happens if we try to use `assert_equal` on our own custom classes?
 
@@ -405,3 +444,14 @@ def ==(other)
 end
 ```
 - The first method call `is_a?` protects from the method returning `nil`
+
+#### When writing tests, what does *code coverage* mean?
+ 
+ ANSWER
+
+  - it means how much of our actual program code is tested by a test suite.
+  - it means how much of our public and private methods is tested. 
+  - it means only that the method itself has gone through a test. 
+    - which means, it doesn't mean that edge cases are considered
+    - or that our program is working properly.
+    - just that one of our methods has gone through a test.
